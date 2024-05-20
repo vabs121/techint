@@ -1,0 +1,52 @@
+package australia.ncs;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+@Test
+public class LoginTest {
+	
+	@SuppressWarnings("deprecation")
+	public void SignUpTest() throws InterruptedException{
+		
+		WebDriver driver = new ChromeDriver();
+		String url = ("URL REMOVED");
+		
+		driver.get(url);
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+		
+		//Login Checks
+		WebElement login = driver.findElement(By.cssSelector(".v-btn__content i:nth-child(1)"));
+		login.click();
+				
+		WebElement signUp = driver.findElement(By.xpath("//div[@id='loginDialog']//div/div/div/div[1]/p/a"));
+		signUp.click();
+		
+		WebElement signupOne = driver.findElement(By.xpath("//div[@id='signupDialog']//div/div/div/div[2]/button[1]"));
+		signupOne.click();
+		
+		WebElement userText = driver.findElement(By.cssSelector("#username-err"));
+		String user = userText.getText();
+		Assert.assertEquals(userText.getText(),"Username is required");
+		
+		WebElement pwdText = driver.findElement(By.cssSelector("#password-err"));
+		String pwd = pwdText.getText();
+		Assert.assertEquals(pwd,"Password is required");
+		
+		WebElement confirmText = driver.findElement(By.cssSelector("#confirm-err"));
+		String confirm = confirmText.getText();
+		Assert.assertEquals(confirm,"Please confirm your password");
+		
+        driver.quit();
+		
+	}
+
+}
